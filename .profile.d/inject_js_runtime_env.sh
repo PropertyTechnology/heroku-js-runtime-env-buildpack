@@ -3,10 +3,14 @@
 # Debug, echo every command
 set -x
 
+# Ensure that the current shell enables the globstar feature (**)
+shopt -s globstar
+
 # Each bundle is generated with a unique hash name to bust browser cache.
 # Use shell `*` globbing to fuzzy match.
 # create-react-app v2 with Webpack v4 splits the bundle, so process all *.js files.
-js_bundles="${JS_RUNTIME_TARGET_BUNDLE:-/app/build/static/js/*.js}"
+# use globstar to pick up files produced by vite as well as CRA
+js_bundles="${JS_RUNTIME_TARGET_BUNDLE:-/app/build/**/*.js}"
 # Get exact filenames.
 js_bundle_filenames=`ls $js_bundles`
 
